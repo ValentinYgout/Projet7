@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style/style.css">
+
+    <script src="https://kit.fontawesome.com/a4ffb19968.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <main class="main">
+        <section class="search">
+            <div class="search__input-group">
+                <input type="text" class="search__input"
+                    placeholder="Rechercher un ingrédient, un appareil, un ustensile, une recette..." />
+                <button class="search__button">
+                    <i class="fa fa-search fa-lg" ></i>
+                </button>
+            </div>
+        </section>
+
+        <section id="tags__selected">
+           
+            <div class="tag__ingredients--wrapper"></div>
+            <!--  JAVASCRIPT  -->
+            <div class="tag__appliances--wrapper"></div>
+            <!--  JAVASCRIPT  -->
+            <div class="tag__ustensils--wrapper"></div>
+            <!--  JAVASCRIPT  -->
+        </section>
+
+        <section id="filters">
+           <!--  JAVASCRIPT  -->
+        </section>
+
+        <section id="recipes__cards">
+            <!--  JAVASCRIPT  -->
+        </section>
+        <span class="no-result-message"></span>
+        <!--  JAVASCRIPT  -->
+    </main>
+
+   <script src="./js/api/Api.js"></script>
+   <script src="./js/models/Recipe.js"></script>
+   <script src="./js/templates/RecipeCard.js"></script>
+   <script src="./js/templates/Filter.js"></script>
+   <script src="./js/models/Recipe.js"></script>
+   <script src="./app.js"></script>
+</body>
+
+</html>
