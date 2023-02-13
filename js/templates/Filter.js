@@ -117,7 +117,8 @@ class Filter {
           if (ingredientsList.includes(ingredient.toLowerCase()) === false) {
             ingredientsList.push(ingredient.toLowerCase());
             const filterItem = document.createElement('li');
-            filterItem.classList.add(`.filter__${this._filter}--items`);
+            filterItem.classList.add(`.filter__${this._filter}--items`)
+            filterItem.classList.add(`.filter__items`);
             filterItem.innerText = ingredient;
             FilterListContainer.appendChild(filterItem);
           }
@@ -127,7 +128,7 @@ class Filter {
     }
 
     if (this._filter === 'appliances') {
-      console.log(this._recipesData)
+      // console.log(this._recipesData)
       this._recipesData.forEach((recipe) => {
 
         let appliance = recipe.appliance
@@ -142,7 +143,7 @@ class Filter {
         }
 
       });
-      console.log(appliancesList)
+      // console.log(appliancesList)
     }
 
     if (this._filter === 'ustensils') {
@@ -150,7 +151,7 @@ class Filter {
       this._recipesData.forEach((recipe) => {
 
         recipe.ustensils.forEach((ustensil) => {
-          console.log(ustensil)
+          // console.log(ustensil)
 
           if (ustensilsList.includes(ustensil) === false) {
             ustensilsList.push(ustensil);
@@ -172,7 +173,7 @@ class Filter {
   }
 
   createFilterTags() {
-    console.log('test')
+    // console.log('test')
 
     const filterItems= document.getElementsByClassName(`.filter__${this._filter}--items`);
     const wrapper= document.querySelector(`.tag__${this._filter}--wrapper`);

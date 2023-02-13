@@ -49,7 +49,7 @@ class RecipeCard {
                 <span class="duration-icon">
                     <i class="far fa-clock fa-lg"></i>
                 </span>
-                    <h3>${this._recipe.time}</h3>
+                    <h3>${this._recipe.time} min</h3>
             </header>
             <div class="informations">
                 
