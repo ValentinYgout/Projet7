@@ -1,13 +1,19 @@
 let api = new RecipeApi('data/recipes.json').getRecipes()
+
 class App {
     recipesData;
+    DatafromApi;
     recipesWrapper;
     filtersWrapper;
+    resultFromTags
+ 
     constructor(DataFromApi) {
 
         this.recipesWrapper = document.querySelector('#recipes__cards')
-        this.recipesData = DataFromApi
+        this.DatafromApi = DataFromApi
+        this.recipesData=this.DatafromApi
         this.filtersWrapper = document.querySelector(`#filters`)
+        this.resultFromTags=[]
 
     }
 
@@ -44,6 +50,7 @@ class App {
             filterTemplate.createToggleArrows()
 
             filterTemplate.fillList()
+            filterTemplate.filterKeyInput()
 
             filterTemplate.createFilterTags()
         })
@@ -67,6 +74,7 @@ class App {
 
 
         let RecipeList = await this.recipesData
+          
 
         const searchInput = document.querySelector('.search__input')
         searchInput.addEventListener("input", (e) => {
@@ -96,35 +104,111 @@ class App {
                 }
 
             } else if (value.length<3) {
-                this.recipesWrapper.innerHTML = ""
-                this.recipesData = api
-                this.init()
+                // this.recipesWrapper.innerHTML = ""
+                if(this.resultFromTags.length>0){
 
+                    this.recipesData = this.resultFromTags
+                    this.init()
+                    noResultMessage.innerHTML = ` Nous avons trouvé ${this.recipesData.length} résultats`
 
-                noResultMessage.innerHTML = ""
+                }
+                else{
+                    
+                    this.recipesData = RecipeList
+                    this.init()
+                    console.log(this.recipesData)
+                    noResultMessage.innerHTML = ` Nous avons trouvé ${this.recipesData.length} résultats`
+
+                }
+                // noResultMessage.innerHTML = ""
 
 
             }
         })
 
-        let filterElements= document.querySelectorAll('.filter__items');
         
-    
+        const filterElements= document.getElementsByClassName(`.filter__items`);
+        
+       console.log(Array.from(filterElements))
 
-        filterElements.forEach(function(elem) {
-            elem.addEventListener('click'),(e)=>{
-                let filterValue = e.target.value
-                filterValue = filterValue.toLowerCase()
-                console.log(filterValue)
-                const Filterresults = searchRecipes(filterValue, RecipeList)
-                console.log( Filterresults, "result")
-                this.recipesWrapper.innerHTML = ""
-                noResultMessage.innerHTML = ` Nous avons trouvé ${results.length} résultats`
-                this.recipesData = results
-                this.init()
-    
-            }
+       Array.from(filterElements).forEach((element) => {
+        element.addEventListener('click', (e) => {
+            console.log(element.innerHTML,"from app")
+
+            let filterValue = element.innerHTML
+             filterValue = filterValue.toLowerCase()
+             const filterResults = searchWithFilters(filterValue, RecipeList)
+             console.log( filterResults, "result")
+             this.recipesWrapper.innerHTML = ""
+             noResultMessage.innerHTML = ` Nous avons trouvé ${filterResults.length} résultats`
+             this.recipesData = filterResults
+             this.resultFromTags=filterResults
+             console.log(this.resultFromTags)
+             this.init()
+             this.SearchAndUpdate()
+         
+         
         });
+        
+  
+      });
+
+
+
+      
+
+
+      const closeTag= document.getElementsByClassName(`fa-circle-xmark`);
+      let TagCount=  document.querySelectorAll(`#tags__selected .selected-tag`).length
+      
+      
+      
+      
+      Array.from(closeTag).forEach((element) => {
+          element.addEventListener('click', (e) => {
+            console.log("how many tags",TagCount)
+           console.log(e.target.parentNode.parentNode.parentNode)
+
+
+          
+           
+           if(this.TagCount=1){
+               
+               e.target.parentNode.parentNode.parentNode.remove()
+               this.recipesWrapper.innerHTML = ""
+               console.log("recipedata",this.recipesData,"and recipe list",RecipeList)
+               this.recipesData = this.DatafromApi
+               this.init()
+               noResultMessage.innerHTML = ` Nous avons trouvé ${this.recipesData.length} résultats`
+            }
+            else{
+            console.log("tags to calc")
+            
+            console.log(this.recipesData)
+
+        }
+         
+         
+        });
+        
+  
+      });
+      
+            
+//         filterElements.forEach(function(elem) {
+//             elem.addEventListener('click'),(e)=>{
+//                 let filterValue = e.target.value
+//                 filterValue = filterValue.toLowerCase()
+//                 console.log("we need this to work")
+//                 const Filterresults = searchWithFilters(filterValue, RecipeList)
+//                 console.log( Filterresults, "result")
+//                 this.recipesWrapper.innerHTML = ""
+//                 noResultMessage.innerHTML = ` Nous avons trouvé ${results.length} résultats`
+//                 this.recipesData = results
+//                 this.init()
+    
+//             }
+//         });
 
 
     }

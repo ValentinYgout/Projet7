@@ -109,7 +109,7 @@ body {
   list-style: none;
 }
 
-#tags__selected .tag__ingredients--wrapper .tag__ingredient {
+#tags__selected .tag__ingredients--wrapper .tag__ingredients {
   background-color: var(--blue);
   height: auto;
   width: 150px;
