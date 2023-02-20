@@ -2,7 +2,6 @@ let api = new RecipeApi('data/recipes.json').getRecipes()
 
 class App {
     recipesData;
-    DatafromApi;
     recipesWrapper;
     filtersWrapper;
     resultFromTags
@@ -10,8 +9,7 @@ class App {
     constructor(DataFromApi) {
 
         this.recipesWrapper = document.querySelector('#recipes__cards')
-        this.DatafromApi = DataFromApi
-        this.recipesData=this.DatafromApi
+        this.recipesData = DataFromApi
         this.filtersWrapper = document.querySelector(`#filters`)
         this.resultFromTags=[]
 
@@ -176,8 +174,8 @@ class App {
                
                e.target.parentNode.parentNode.parentNode.remove()
                this.recipesWrapper.innerHTML = ""
-               console.log("recipedata",this.recipesData,"and recipe list",RecipeList)
-               this.recipesData = this.DatafromApi
+               this.recipesData = RecipeList
+               console.log()
                this.init()
                noResultMessage.innerHTML = ` Nous avons trouvé ${this.recipesData.length} résultats`
             }
