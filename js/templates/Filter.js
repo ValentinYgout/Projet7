@@ -2,12 +2,14 @@ class Filter {
   ingredientsList;
   ustensilsList;
   appliancesList;
+
   constructor(filter, recipesData) {
     this._filter = filter
     this._recipesData = recipesData
     this.ingredientsList = []
     this.appliancesList = []
     this.ustensilsList = []
+ 
   }
 
   createFilter() {
@@ -49,7 +51,7 @@ class Filter {
 
 
     arrowDown.addEventListener('click', (e) => {
-      console.log(`${this._filter} was clicked`)
+      // console.log(`${this._filter} was clicked`)
 
       if (arrowDown.classList.contains(`ingredientsArrowDown`)) {
         document.querySelector('.appliancesArrowUp').click()
@@ -130,7 +132,11 @@ class Filter {
           }
         });
       });
-      // console.log(ingredientsList)
+   console.log(
+    Array.from(FilterListContainer.childNodes)
+    .sort((a, b) => a.innerHTML.localeCompare(b.innerHTML))
+    .forEach(li => FilterListContainer.appendChild(li)))
+   
     }
 
     if (this._filter === 'appliances') {
@@ -173,12 +179,14 @@ class Filter {
 
     }
   }
+
+
   async filterKeyInput() {
 
     const filterItemsInput = document.getElementsByClassName(`filter__${this._filter}--input`);
-    console.log(this._filter, "array?", Array.from(filterItemsInput))
+    // console.log(this._filter, "array?", Array.from(filterItemsInput))
     Array.from(filterItemsInput).forEach((element) => {
-      console.log(this.ingredientsList)
+      // console.log(this.ingredientsList)
       element.addEventListener('input', (e) => {
         console.log(e.target.id)
 
@@ -262,10 +270,17 @@ class Filter {
 
     Array.from(filterItems).forEach((element) => {
       element.addEventListener('click', (e) => {
-        console.log(element.innerHTML, "from filter")
+        if (app.activeTags.includes(element.innerHTML.toLowerCase())){
+          console.log("already have this tag")
+          return
+        }
+        console.log("added new tag")
+        // console.log(element.innerHTML, "from filter")
         const tagContainer = document.createElement('div');
         tagContainer.setAttribute('class', `tag__${this._filter}`);
         tagContainer.classList.add(`selected-tag`);
+        // console.log(element.innerHTML)
+        app.activeTags.push(element.innerHTML.toLowerCase())
 
 
         let tagTemplate = `
@@ -278,10 +293,46 @@ class Filter {
         tagContainer.innerHTML = tagTemplate
         wrapper.appendChild(tagContainer)
 
+
+        let filterValue = element.innerHTML
+             filterValue = filterValue.toLowerCase()
+             const filterResults = searchWithFilters(filterValue,this._recipesData)
+            //  console.log( filterResults, "result")
+             app.recipesWrapper.innerHTML = ""
+             app.currentRecipeList = filterResults
+             app.resultFromTags=filterResults
+             app.display()
+
       });
 
 
     });
+
+    // const closeTag= document.getElementsByClassName(`fa-circle-xmark`);
+ 
+    // Array.from(closeTag).forEach((element) => {
+    //   element.addEventListener('click', (e) => {
+    //     console.log( app.activeTags.length)
+        
+       
+    //       const newTagList = app.activeTags.filter(function (tag) {
+    //         return tag !== e.target.parentNode.parentNode.outerText.trim().toString().toLowerCase();
+    //     });
+    //    app.activeTags=newTagList
+    //     // console.log(app.activeTags.length)
+    
+    //     e.target.parentNode.parentNode.parentNode.remove()
+    //     app.recipesWrapper.innerHTML = ""
+    //      if(app.activeTags.length==0){
+    //       console.log("resetfromx")
+    //          app.currentRecipeList = app.fetchedList
+    //       }
+    //       else{
+    //       app.currentRecipeList = filterAfterDeletingTag(app.activeTags,app.fetchedList)
+    //     }
+    //     app.display()
+    //   });     
+    // });
 
 
 

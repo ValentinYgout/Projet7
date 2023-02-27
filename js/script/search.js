@@ -2,7 +2,7 @@ function searchRecipes(searchTerm, currentList) {
 
   
     return currentList.filter(recipe => {
-        console.log(recipe.ingredients, recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()).some((ingredient) => ingredient.includes(searchTerm)), searchTerm)
+        // console.log(recipe.ingredients, recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()).some((ingredient) => ingredient.includes(searchTerm)), searchTerm)
         return recipe.name.toLowerCase().includes(searchTerm)
             || recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()).some((ingredient) => ingredient.includes(searchTerm))
             || recipe.description.toLowerCase().includes(searchTerm)
@@ -10,8 +10,9 @@ function searchRecipes(searchTerm, currentList) {
 
 }
 function searchWithFilters(searchTerm, currentList) {
+    // console.log(searchTerm,currentList,"inside function")
     return currentList.filter(recipe => {
-        console.log(recipe.ingredients, recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()).some((ingredient) => ingredient.includes(searchTerm)), searchTerm)
+        // console.log(recipe.ingredients, recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()).some((ingredient) => ingredient.includes(searchTerm)), searchTerm)
 
         return recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()).some((ingredient) => ingredient.includes(searchTerm))
             || recipe.ustensils.map(ustensils => ustensils.toLowerCase()).includes(searchTerm)
@@ -41,8 +42,17 @@ function CheckAppliance(searchTerm, currentList) {
     })
 }
 
-function updateAfterDeletingTag(){
-        
+function filterAfterDeletingTag(searchTerms,allRecipes){
+    console.log('filterAfterDeletingTag()')
+    let currentList= allRecipes
+    // console.log(searchTerms,currentList)
+    for (let i = 0; i < searchTerms.length; i++) {
+        const searchTerm = searchTerms[i];
+        console.log(searchTerm,i)
+        currentList= searchWithFilters(searchTerm,currentList)  
+        // console.log(currentList)
+    }
+    return currentList   
 }
 function filterIngredientList(){
     console.log("test")

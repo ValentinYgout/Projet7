@@ -1,10 +1,15 @@
 let api = new RecipeApi('data/recipes.json').getRecipes()
+ let noResultMessage = document.querySelector('.no-result-message')
 
 class App {
     recipesData;
     recipesWrapper;
     filtersWrapper;
     resultFromTags
+    currentRecipeList;
+    fetchedList;
+    activeTags;
+    
  
     constructor(DataFromApi) {
 
@@ -12,33 +17,44 @@ class App {
         this.recipesData = DataFromApi
         this.filtersWrapper = document.querySelector(`#filters`)
         this.resultFromTags=[]
-
+        this.currentRecipeList=[]
+        this.fetchedList=[]
+        this.activeTags=[]
     }
 
 
 
+    async init(){
+       
+        this.fetchedList = await this.recipesData
+        this.currentRecipeList = this.fetchedList
+        app.display()
+        app.SearchAndUpdate()  
+    }
 
 
 
+    async display() {
+        
+        console.log("display function")
 
-    async init() {
+        let RecipeList =  this.currentRecipeList
 
-        let RecipeList = await this.recipesData
-
-        console.log(this.recipesWrapper)
+        // console.log(this.currentRecipeList)
         // console.log(RecipeList.length, "inside")
 
 
         // console.log(recipesData)
         // recipesData.map(recipe => new Recipe(recipe))
-        RecipeList.forEach(recipe => {
+        // console.log(this.currentRecipeList,"before render")
+        this.currentRecipeList.forEach(recipe => {
 
             const recipeTemplate = new RecipeCard(recipe)
 
             this.recipesWrapper.appendChild(recipeTemplate.createRecipeCard())
 
         })
-        console.log(this.recipesWrapper)
+        // console.log(this.recipesWrapper)
         const FilterList = ['ingredients', 'appliances', 'ustensils']
         this.filtersWrapper.innerHTML = ""
         FilterList.forEach(filter => {
@@ -51,12 +67,14 @@ class App {
             filterTemplate.filterKeyInput()
 
             filterTemplate.createFilterTags()
+
+            
         })
+        createTagXMarkEvent()
 
 
 
-
-
+        
 
 
 
@@ -67,146 +85,46 @@ class App {
 
 
     async SearchAndUpdate() {
-        let noResultMessage = document.querySelector('.no-result-message')
-
-
-
-        let RecipeList = await this.recipesData
+    
+        let RecipeList = this.currentRecipeList
           
 
         const searchInput = document.querySelector('.search__input')
+        console.log('install event')
         searchInput.addEventListener("input", (e) => {
          
             let value = e.target.value
 
+            this.recipesWrapper.innerHTML = ""
         
             if (value && value.length > 2) {
+                console.log('>2')
             
                 value = value.toLowerCase()
-                console.log(RecipeList)
                 const results = searchRecipes(value, RecipeList)
                 if (results.length > 0) {
 
-                    this.recipesWrapper.innerHTML = ""
-                    noResultMessage.innerHTML = ` Nous avons trouvé ${results.length} résultats`
-                    this.recipesData = results
-                    this.init()
+                  
+                    this.currentRecipeList = results
                 } else {
-
-
-
-                    this.recipesWrapper.innerHTML = ""
-                    noResultMessage.innerHTML = "No matching results"
-                    this.recipesData = api
-                    this.init()
+                    this.currentRecipeList = this.recipesData
+                    noResultMessage.innerHTML = `Aucune recette ne correspond à votre critère… vous pouvez
+                    chercher « tarte aux pommes », « poisson » etc...`
                 }
 
-            } else if (value.length<3) {
-                // this.recipesWrapper.innerHTML = ""
+            } else {
                 if(this.resultFromTags.length>0){
-
-                    this.recipesData = this.resultFromTags
-                    this.init()
-                    noResultMessage.innerHTML = ` Nous avons trouvé ${this.recipesData.length} résultats`
-
+                    this.currentRecipeList = this.resultFromTags
                 }
                 else{
+                    if(this.currentRecipeList!==this.fetchedList){
+                        this.currentRecipeList = this.fetchedList
+                    }
                     
-                    this.recipesData = RecipeList
-                    this.init()
-                    console.log(this.recipesData)
-                    noResultMessage.innerHTML = ` Nous avons trouvé ${this.recipesData.length} résultats`
-
                 }
-                // noResultMessage.innerHTML = ""
-
-
             }
+            this.display()
         })
-
-        
-        const filterElements= document.getElementsByClassName(`.filter__items`);
-        
-       console.log(Array.from(filterElements))
-
-       Array.from(filterElements).forEach((element) => {
-        element.addEventListener('click', (e) => {
-            console.log(element.innerHTML,"from app")
-
-            let filterValue = element.innerHTML
-             filterValue = filterValue.toLowerCase()
-             const filterResults = searchWithFilters(filterValue, RecipeList)
-             console.log( filterResults, "result")
-             this.recipesWrapper.innerHTML = ""
-             noResultMessage.innerHTML = ` Nous avons trouvé ${filterResults.length} résultats`
-             this.recipesData = filterResults
-             this.resultFromTags=filterResults
-             console.log(this.resultFromTags)
-             this.init()
-             this.SearchAndUpdate()
-         
-         
-        });
-        
-  
-      });
-
-
-
-      
-
-
-      const closeTag= document.getElementsByClassName(`fa-circle-xmark`);
-      let TagCount=  document.querySelectorAll(`#tags__selected .selected-tag`).length
-      
-      
-      
-      
-      Array.from(closeTag).forEach((element) => {
-          element.addEventListener('click', (e) => {
-            console.log("how many tags",TagCount)
-           console.log(e.target.parentNode.parentNode.parentNode)
-
-
-          
-           
-           if(this.TagCount=1){
-               
-               e.target.parentNode.parentNode.parentNode.remove()
-               this.recipesWrapper.innerHTML = ""
-               this.recipesData = RecipeList
-               console.log()
-               this.init()
-               noResultMessage.innerHTML = ` Nous avons trouvé ${this.recipesData.length} résultats`
-            }
-            else{
-            console.log("tags to calc")
-            
-            console.log(this.recipesData)
-
-        }
-         
-         
-        });
-        
-  
-      });
-      
-            
-//         filterElements.forEach(function(elem) {
-//             elem.addEventListener('click'),(e)=>{
-//                 let filterValue = e.target.value
-//                 filterValue = filterValue.toLowerCase()
-//                 console.log("we need this to work")
-//                 const Filterresults = searchWithFilters(filterValue, RecipeList)
-//                 console.log( Filterresults, "result")
-//                 this.recipesWrapper.innerHTML = ""
-//                 noResultMessage.innerHTML = ` Nous avons trouvé ${results.length} résultats`
-//                 this.recipesData = results
-//                 this.init()
-    
-//             }
-//         });
 
 
     }
@@ -218,6 +136,4 @@ class App {
 
 const app = new App(api);
 
-
 app.init()
-app.SearchAndUpdate()
