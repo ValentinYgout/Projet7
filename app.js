@@ -66,11 +66,13 @@ class App {
             filterTemplate.fillList()
             filterTemplate.filterKeyInput()
 
-            filterTemplate.createFilterTags()
+            filterTemplate.createFilterTags(filter)
+            
+
 
             
         })
-        createTagXMarkEvent()
+        // createTagXMarkEvent()
 
 
 
@@ -102,17 +104,21 @@ class App {
             
                 value = value.toLowerCase()
                 const results = searchRecipes(value, RecipeList)
+               
                 if (results.length > 0) {
+                    this.recipesWrapper.innerHTML = ""
 
                   
                     this.currentRecipeList = results
                 } else {
-                    this.currentRecipeList = this.recipesData
+                    this.currentRecipeList = this.fetchedList
                     noResultMessage.innerHTML = `Aucune recette ne correspond à votre critère… vous pouvez
                     chercher « tarte aux pommes », « poisson » etc...`
                 }
 
             } else {
+                noResultMessage.innerHTML  = ""
+                console.log(this.resultFromTags,this.resultFromTags.length)
                 if(this.resultFromTags.length>0){
                     this.currentRecipeList = this.resultFromTags
                 }

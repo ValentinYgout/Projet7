@@ -31,3 +31,4 @@ class RecipeApi extends Api {
         return await this.get()
     }
 }
+

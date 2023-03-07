@@ -9,7 +9,7 @@ class Filter {
     this.ingredientsList = []
     this.appliancesList = []
     this.ustensilsList = []
- 
+
   }
 
   createFilter() {
@@ -102,10 +102,7 @@ class Filter {
 
 
   fillList() {
-    // const ingredientsList = []
-    // const appliancesList = []
-    // const ustensilsList = []
-    // console.log(this._recipesData)
+
 
     const FilterListContainer = document.querySelector(`.filter__${this._filter}--list`);
 
@@ -121,22 +118,28 @@ class Filter {
           ingredient
 
         }) => {
-
-          if (this.ingredientsList.includes(ingredient.toLowerCase()) === false) {
-            this.ingredientsList.push(ingredient.toLowerCase());
-            const filterItem = document.createElement('li');
-            filterItem.classList.add(`.filter__${this._filter}--items`)
-            filterItem.classList.add(`.filter__items`);
-            filterItem.innerText = ingredient;
-            FilterListContainer.appendChild(filterItem);
-          }
+          this.ingredientsList.push(ingredient.toLowerCase());
         });
       });
-   console.log(
-    Array.from(FilterListContainer.childNodes)
-    .sort((a, b) => a.innerHTML.localeCompare(b.innerHTML))
-    .forEach(li => FilterListContainer.appendChild(li)))
-   
+
+      this.ingredientsList = [... new Set(this.ingredientsList)]
+      this.ingredientsList = this.ingredientsList.sort()
+      this.ingredientsList.forEach(ingredient => {
+
+        const filterItem = document.createElement('li');
+        filterItem.classList.add(`.filter__${this._filter}--items`)
+        filterItem.classList.add(`.filter__items`);
+        filterItem.innerText = ingredient;
+        FilterListContainer.appendChild(filterItem);
+      }
+
+
+      );
+
+
+
+
+
     }
 
     if (this._filter === 'appliances') {
@@ -145,18 +148,23 @@ class Filter {
 
         let appliance = recipe.appliance
 
-
-        if (this.appliancesList.includes(appliance.toLowerCase()) === false) {
-          this.appliancesList.push(appliance.toLowerCase());
-          const filterItem = document.createElement('li');
-          filterItem.classList.add(`.filter__${this._filter}--items`);
-          filterItem.classList.add(`.filter__items`);
-          filterItem.innerText = appliance;
-          FilterListContainer.appendChild(filterItem);
-        }
+        this.appliancesList.push(appliance.toLowerCase());
 
       });
-      // console.log(appliancesList)
+
+      this.appliancesList = [... new Set(this.appliancesList)]
+      this.appliancesList = this.appliancesList.sort()
+      this.appliancesList.forEach(appliance => {
+
+        const filterItem = document.createElement('li');
+        filterItem.classList.add(`.filter__${this._filter}--items`);
+        filterItem.classList.add(`.filter__items`);
+        filterItem.innerText = appliance;
+        FilterListContainer.appendChild(filterItem);
+      })
+
+
+
     }
 
     if (this._filter === 'ustensils') {
@@ -164,18 +172,23 @@ class Filter {
       this._recipesData.forEach((recipe) => {
 
         recipe.ustensils.forEach((ustensil) => {
-          // console.log(ustensil)
+          
 
-          if (this.ustensilsList.includes(ustensil) === false) {
-            this.ustensilsList.push(ustensil);
-            const filterItem = document.createElement('li');
-            filterItem.classList.add(`.filter__${this._filter}--items`);
-            filterItem.classList.add(`.filter__items`);
-            filterItem.innerText = ustensil;
-            FilterListContainer.appendChild(filterItem);
-          }
+          this.ustensilsList.push(ustensil);
         });
       });
+
+      this.ustensilsList = [... new Set(this.ustensilsList)]
+      this.ustensilsList = this.ustensilsList.sort()
+      this.ustensilsList.forEach(ustensil => {
+
+        const filterItem = document.createElement('li');
+        filterItem.classList.add(`.filter__${this._filter}--items`);
+        filterItem.classList.add(`.filter__items`);
+        filterItem.innerText = ustensil;
+        FilterListContainer.appendChild(filterItem);
+      })
+
 
     }
   }
@@ -211,48 +224,51 @@ class Filter {
             filterItem.classList.add(`.filter__items`);
             filterItem.innerText = ingredient;
             FilterListContainer.appendChild(filterItem);
+            this.createFilterTags("ingredients")
 
           })
         }
         if (e.target.id === 'ustensils-input') {
           const FilterListContainer = document.querySelector(`.filter__ustensils--list`);
-          console.log("filtercontainer!!",FilterListContainer)
+          console.log("filtercontainer!!", FilterListContainer)
 
-          FilterListContainer.innerHTML=""
-          console.log("filtercontainer!!",FilterListContainer)
-          
+          FilterListContainer.innerHTML = ""
+          console.log("filtercontainer!!", FilterListContainer)
+
           console.log(this.ustensilsList)
-          let NewList= this.ustensilsList.filter(ustensil=>ustensil.includes(e.target.value))
-          NewList.forEach(ustensil=>{
+          let NewList = this.ustensilsList.filter(ustensil => ustensil.includes(e.target.value))
+          NewList.forEach(ustensil => {
 
-         
-             const filterItem = document.createElement('li');
-             filterItem.classList.add(`.filter__ustensils--items`);
-             filterItem.classList.add(`.filter__items`);
-             filterItem.innerText = ustensil;
-             FilterListContainer.appendChild(filterItem);
-           
+
+            const filterItem = document.createElement('li');
+            filterItem.classList.add(`.filter__ustensils--items`);
+            filterItem.classList.add(`.filter__items`);
+            filterItem.innerText = ustensil;
+            FilterListContainer.appendChild(filterItem);
+            this.createFilterTags("ustensils")
+
           })
         }
 
         if (e.target.id === 'appliances-input') {
           const FilterListContainer = document.querySelector(`.filter__appliances--list`);
-          console.log("filtercontainer!!",FilterListContainer)
+          console.log("filtercontainer!!", FilterListContainer)
 
-          FilterListContainer.innerHTML=""
-          console.log("filtercontainer!!",FilterListContainer)
-          
+          FilterListContainer.innerHTML = ""
+          console.log("filtercontainer!!", FilterListContainer)
+
           console.log(this.appliancesList)
-          let NewList= this.appliancesList.filter(appliance=>appliance.includes(e.target.value))
-          NewList.forEach(appliance=>{
+          let NewList = this.appliancesList.filter(appliance => appliance.includes(e.target.value))
+          NewList.forEach(appliance => {
 
-         
-             const filterItem = document.createElement('li');
-             filterItem.classList.add(`.filter__appliances--items`);
-             filterItem.classList.add(`.filter__items`);
-             filterItem.innerText = appliance;
-             FilterListContainer.appendChild(filterItem);
-           
+
+            const filterItem = document.createElement('li');
+            filterItem.classList.add(`.filter__appliances--items`);
+            filterItem.classList.add(`.filter__items`);
+            filterItem.innerText = appliance;
+            FilterListContainer.appendChild(filterItem);
+            this.createFilterTags("appliances")
+
           })
         }
       })
@@ -261,31 +277,36 @@ class Filter {
 
   }
 
-  createFilterTags() {
+  createFilterTags(filter) {
+
+
     // console.log('test')
 
-    const filterItems = document.getElementsByClassName(`.filter__${this._filter}--items`);
-    const wrapper = document.querySelector(`.tag__${this._filter}--wrapper`);
+    const filterItems = document.getElementsByClassName(`.filter__${filter}--items`);
+    const wrapper = document.querySelector(`.tag__${filter}--wrapper`);
 
 
     Array.from(filterItems).forEach((element) => {
       element.addEventListener('click', (e) => {
-        if (app.activeTags.includes(element.innerHTML.toLowerCase())){
+        if (app.activeTags.includes(element.innerHTML.toLowerCase())) {
           console.log("already have this tag")
           return
         }
         console.log("added new tag")
         // console.log(element.innerHTML, "from filter")
         const tagContainer = document.createElement('div');
-        tagContainer.setAttribute('class', `tag__${this._filter}`);
+        tagContainer.setAttribute('class', `tag__${filter}`);
         tagContainer.classList.add(`selected-tag`);
         // console.log(element.innerHTML)
         app.activeTags.push(element.innerHTML.toLowerCase())
 
+        let filterValue = element.innerHTML.toLowerCase()
+        let filterValueNoSpace = filterValue.split(' ').join('')
+
 
         let tagTemplate = `
           
-              <div class="tag-${this._filter}">${element.innerHTML}</li>
+              <div class="tag-${filter} ${filterValueNoSpace}">${element.innerHTML}</li>
               <span><i class="fa-regular fa-circle-xmark" style="cursor: pointer; width: 20px;"></i>
               </span>
             
@@ -293,46 +314,58 @@ class Filter {
         tagContainer.innerHTML = tagTemplate
         wrapper.appendChild(tagContainer)
 
+        const filterResults = searchWithFilters(filterValue, this._recipesData)
+        //  console.log( filterResults, "result")
+        app.recipesWrapper.innerHTML = ""
+        app.currentRecipeList = filterResults
+        app.resultFromTags = filterResults
+        app.display()
 
-        let filterValue = element.innerHTML
-             filterValue = filterValue.toLowerCase()
-             const filterResults = searchWithFilters(filterValue,this._recipesData)
-            //  console.log( filterResults, "result")
-             app.recipesWrapper.innerHTML = ""
-             app.currentRecipeList = filterResults
-             app.resultFromTags=filterResults
-             app.display()
+
+        const closeTag = document.querySelector(`.${filterValueNoSpace} .fa-circle-xmark`);
+        console.log(`${filterValueNoSpace} .fa-circle-xmark`)
+
+
+        console.log(filterValueNoSpace)
+        const searchInput = document.querySelector('.search__input')
+        closeTag.addEventListener('click', (e) => {
+          console.log(app.activeTags.length)
+
+
+          const newTagList = app.activeTags.filter(function (tag) {
+            return tag !== e.target.parentNode.parentNode.outerText.trim().toString().toLowerCase();
+          });
+          app.activeTags = newTagList
+          // console.log(app.activeTags.length)
+
+          e.target.parentNode.parentNode.parentNode.remove()
+          app.recipesWrapper.innerHTML = ""
+
+          if (app.activeTags.length == 0) {
+            console.log(searchInput.value)
+            app.resultFromTags = ""
+            if (searchInput.value.length > 2) {
+              console.log("should do something")
+              app.currentRecipeList = searchRecipes(searchInput.value, app.fetchedList)
+
+            }
+            else {
+
+              app.currentRecipeList = app.fetchedList
+            }
+          }
+          else {
+            app.currentRecipeList = filterAfterDeletingTag(app.activeTags, app.fetchedList)
+          }
+          app.display()
+        });
+
 
       });
 
 
     });
 
-    // const closeTag= document.getElementsByClassName(`fa-circle-xmark`);
- 
-    // Array.from(closeTag).forEach((element) => {
-    //   element.addEventListener('click', (e) => {
-    //     console.log( app.activeTags.length)
-        
-       
-    //       const newTagList = app.activeTags.filter(function (tag) {
-    //         return tag !== e.target.parentNode.parentNode.outerText.trim().toString().toLowerCase();
-    //     });
-    //    app.activeTags=newTagList
-    //     // console.log(app.activeTags.length)
-    
-    //     e.target.parentNode.parentNode.parentNode.remove()
-    //     app.recipesWrapper.innerHTML = ""
-    //      if(app.activeTags.length==0){
-    //       console.log("resetfromx")
-    //          app.currentRecipeList = app.fetchedList
-    //       }
-    //       else{
-    //       app.currentRecipeList = filterAfterDeletingTag(app.activeTags,app.fetchedList)
-    //     }
-    //     app.display()
-    //   });     
-    // });
 
 
 

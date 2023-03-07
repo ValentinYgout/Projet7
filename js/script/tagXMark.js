@@ -1,6 +1,8 @@
 function createTagXMarkEvent(){
+  console.log("createTagXMarkEvent()")
     const closeTag= document.getElementsByClassName(`fa-circle-xmark`);
     Array.from(closeTag).forEach((element) => {
+      console.log(element)
         element.addEventListener('click', (e) => {
           console.log( app.activeTags.length)
           
