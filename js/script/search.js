@@ -43,46 +43,46 @@ function searchWithFilters(searchTerm, currentList) {
 
 }
 
-function searchWithFilters(searchTerm, currentList) {
-    let results = [];
-    for (let i = 0; i < currentList.length; i++) {
-        let recipe = currentList[i];
-        let hasIngredient = false;
-        let hasUstensil = false;
-        let hasAppliance = false;
+// function searchWithFilters(searchTerm, currentList) {
+//     let results = [];
+//     for (let i = 0; i < currentList.length; i++) {
+//         let recipe = currentList[i];
+//         let hasIngredient = false;
+//         let hasUstensil = false;
+//         let hasAppliance = false;
 
-        for (let j = 0; j < recipe.ingredients.length; j++) {
-            let ingredient = recipe.ingredients[j].ingredient.toLowerCase();
-            if (ingredient.indexOf(searchTerm.toLowerCase()) !== -1) {
-                hasIngredient = true;
-                break;
-            }
-        }
+//         for (let j = 0; j < recipe.ingredients.length; j++) {
+//             let ingredient = recipe.ingredients[j].ingredient.toLowerCase();
+//             if (ingredient.indexOf(searchTerm.toLowerCase()) !== -1) {
+//                 hasIngredient = true;
+//                 break;
+//             }
+//         }
 
-        if (recipe.ustensils) {
-            for (let j = 0; j < recipe.ustensils.length; j++) {
-                let ustensil = recipe.ustensils[j].toLowerCase();
-                if (ustensil.indexOf(searchTerm.toLowerCase()) !== -1) {
-                    hasUstensil = true;
-                    break;
-                }
-            }
-        }
+//         if (recipe.ustensils) {
+//             for (let j = 0; j < recipe.ustensils.length; j++) {
+//                 let ustensil = recipe.ustensils[j].toLowerCase();
+//                 if (ustensil.indexOf(searchTerm.toLowerCase()) !== -1) {
+//                     hasUstensil = true;
+//                     break;
+//                 }
+//             }
+//         }
 
-        if (recipe.appliance) {
-            let appliance = recipe.appliance.toLowerCase();
-            if (appliance.indexOf(searchTerm.toLowerCase()) !== -1) {
-                hasAppliance = true;
-            }
-        }
+//         if (recipe.appliance) {
+//             let appliance = recipe.appliance.toLowerCase();
+//             if (appliance.indexOf(searchTerm.toLowerCase()) !== -1) {
+//                 hasAppliance = true;
+//             }
+//         }
 
-        if (hasIngredient || hasUstensil || hasAppliance) {
-            results.push(recipe);
-        }
-    }
-    return results;
+//         if (hasIngredient || hasUstensil || hasAppliance) {
+//             results.push(recipe);
+//         }
+//     }
+//     return results;
 
-}
+// }
 
 function filterAfterDeletingTag(searchTerms, allRecipes) {
     return searchTerms.reduce((currentList, searchTerm) => {
@@ -91,14 +91,14 @@ function filterAfterDeletingTag(searchTerms, allRecipes) {
   }
 
 
-function filterAfterDeletingTag(searchTerms, allRecipes) {
-    let currentList = allRecipes
-    // console.log(searchTerms,currentList)
-    for (let i = 0; i < searchTerms.length; i++) {
-        const searchTerm = searchTerms[i];
-        currentList = searchWithFilters(searchTerm, currentList)
-        // console.log(currentList)
-    }
-    return currentList
-}
+// function filterAfterDeletingTag(searchTerms, allRecipes) {
+//     let currentList = allRecipes
+//     // console.log(searchTerms,currentList)
+//     for (let i = 0; i < searchTerms.length; i++) {
+//         const searchTerm = searchTerms[i];
+//         currentList = searchWithFilters(searchTerm, currentList)
+//         // console.log(currentList)
+//     }
+//     return currentList
+// }
 

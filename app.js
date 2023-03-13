@@ -47,6 +47,7 @@ class App {
         // console.log(recipesData)
         // recipesData.map(recipe => new Recipe(recipe))
         // console.log(this.currentRecipeList,"before render")
+        
         this.currentRecipeList.forEach(recipe => {
 
             const recipeTemplate = new RecipeCard(recipe)
@@ -111,7 +112,8 @@ class App {
                   
                     this.currentRecipeList = results
                 } else {
-                    this.currentRecipeList = this.fetchedList
+                    this.recipesWrapper.innerHTML = ""
+                    this.currentRecipeList = this.results
                     noResultMessage.innerHTML = `Aucune recette ne correspond à votre critère… vous pouvez
                     chercher « tarte aux pommes », « poisson » etc...`
                 }

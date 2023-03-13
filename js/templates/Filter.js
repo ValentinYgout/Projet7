@@ -301,7 +301,10 @@ class Filter {
         app.activeTags.push(element.innerHTML.toLowerCase())
 
         let filterValue = element.innerHTML.toLowerCase()
-        let filterValueNoSpace = filterValue.split(' ').join('')
+
+        const regex = /\s|'/g
+        let filterValueNoSpace = filterValue.replace(regex,'')
+        console.log(filterValueNoSpace)
 
 
         let tagTemplate = `
@@ -321,7 +324,7 @@ class Filter {
         app.resultFromTags = filterResults
         app.display()
 
-
+        console.log(filterValueNoSpace)
         const closeTag = document.querySelector(`.${filterValueNoSpace} .fa-circle-xmark`);
         console.log(`${filterValueNoSpace} .fa-circle-xmark`)
 
@@ -341,7 +344,7 @@ class Filter {
           e.target.parentNode.parentNode.parentNode.remove()
           app.recipesWrapper.innerHTML = ""
 
-          if (app.activeTags.length == 0) {
+          // if (app.activeTags.length == 0) {
             console.log(searchInput.value)
             app.resultFromTags = ""
             if (searchInput.value.length > 2) {
@@ -353,10 +356,10 @@ class Filter {
 
               app.currentRecipeList = app.fetchedList
             }
-          }
-          else {
-            app.currentRecipeList = filterAfterDeletingTag(app.activeTags, app.fetchedList)
-          }
+          // }
+          // else {
+            app.currentRecipeList = filterAfterDeletingTag(app.activeTags, app.currentRecipeList)
+          // }
           app.display()
         });
 
