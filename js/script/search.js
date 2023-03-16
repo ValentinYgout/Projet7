@@ -1,35 +1,35 @@
-function searchRecipes(searchTerm, currentList) {
-
-
-    return currentList.filter(recipe => {
-        // console.log(recipe.ingredients, recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()).some((ingredient) => ingredient.includes(searchTerm)), searchTerm)
-        return recipe.name.toLowerCase().includes(searchTerm)
-            || recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()).some((ingredient) => ingredient.includes(searchTerm))
-            || recipe.description.toLowerCase().includes(searchTerm)
-    })
-
-}
 // function searchRecipes(searchTerm, currentList) {
-//     let result = []
-//     for (let i = 0; i < currentList.length; i++) {
-//         const recipe = currentList[i];
-//         if (recipe.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 ||
-//             recipe.description.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
-//             result.push(currentList[i])
 
-//         }
-//         else {
-//             for (let j = 0; j < recipe.ingredients.length; j++) {
-//                 const ingredient = recipe.ingredients[j];
-//                 if (ingredient.ingredient.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
-//                     result.push(recipe);
-//                     break;
-//                 }
-//             }
-//         }
-//     }
-//     return result
+
+//     return currentList.filter(recipe => {
+//         // console.log(recipe.ingredients, recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()).some((ingredient) => ingredient.includes(searchTerm)), searchTerm)
+//         return recipe.name.toLowerCase().includes(searchTerm)
+//             || recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()).some((ingredient) => ingredient.includes(searchTerm))
+//             || recipe.description.toLowerCase().includes(searchTerm)
+//     })
+
 // }
+function searchRecipes(searchTerm, currentList) {
+    let result = []
+    for (let i = 0; i < currentList.length; i++) {
+        const recipe = currentList[i];
+        if (recipe.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 ||
+            recipe.description.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
+            result.push(currentList[i])
+
+        }
+        else {
+            for (let j = 0; j < recipe.ingredients.length; j++) {
+                const ingredient = recipe.ingredients[j];
+                if (ingredient.ingredient.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
+                    result.push(recipe);
+                    break;
+                }
+            }
+        }
+    }
+    return result
+}
 
 function searchWithFilters(searchTerm, currentList) {
     // console.log(searchTerm,currentList,"inside function")
