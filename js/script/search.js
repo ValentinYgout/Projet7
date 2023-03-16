@@ -9,27 +9,27 @@ function searchRecipes(searchTerm, currentList) {
     })
 
 }
-function searchRecipes(searchTerm, currentList) {
-    let result = []
-    for (let i = 0; i < currentList.length; i++) {
-        const recipe = currentList[i];
-        if (recipe.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 ||
-            recipe.description.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
-            result.push(currentList[i])
+// function searchRecipes(searchTerm, currentList) {
+//     let result = []
+//     for (let i = 0; i < currentList.length; i++) {
+//         const recipe = currentList[i];
+//         if (recipe.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 ||
+//             recipe.description.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
+//             result.push(currentList[i])
 
-        }
-        else {
-            for (let j = 0; j < recipe.ingredients.length; j++) {
-                const ingredient = recipe.ingredients[j];
-                if (ingredient.ingredient.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
-                    result.push(recipe);
-                    break;
-                }
-            }
-        }
-    }
-    return result
-}
+//         }
+//         else {
+//             for (let j = 0; j < recipe.ingredients.length; j++) {
+//                 const ingredient = recipe.ingredients[j];
+//                 if (ingredient.ingredient.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
+//                     result.push(recipe);
+//                     break;
+//                 }
+//             }
+//         }
+//     }
+//     return result
+// }
 
 function searchWithFilters(searchTerm, currentList) {
     // console.log(searchTerm,currentList,"inside function")
@@ -84,21 +84,21 @@ function searchWithFilters(searchTerm, currentList) {
 
 // }
 
-function filterAfterDeletingTag(searchTerms, allRecipes) {
-    return searchTerms.reduce((currentList, searchTerm) => {
-      return searchWithFilters(searchTerm, currentList);
-    }, allRecipes);
-  }
-
-
 // function filterAfterDeletingTag(searchTerms, allRecipes) {
-//     let currentList = allRecipes
-//     // console.log(searchTerms,currentList)
-//     for (let i = 0; i < searchTerms.length; i++) {
-//         const searchTerm = searchTerms[i];
-//         currentList = searchWithFilters(searchTerm, currentList)
-//         // console.log(currentList)
-//     }
-//     return currentList
-// }
+//     return searchTerms.reduce((currentList, searchTerm) => {
+//       return searchWithFilters(searchTerm, currentList);
+//     }, allRecipes);
+//   }
+
+
+function filterAfterDeletingTag(searchTerms, allRecipes) {
+    let currentList = allRecipes
+    // console.log(searchTerms,currentList)
+    for (let i = 0; i < searchTerms.length; i++) {
+        const searchTerm = searchTerms[i];
+        currentList = searchWithFilters(searchTerm, currentList)
+        // console.log(currentList)
+    }
+    return currentList
+}
 
