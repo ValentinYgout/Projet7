@@ -12,8 +12,6 @@ class RecipeCard {
 
     createRecipeCard() {
         let ingredients = this._recipe.ingredients
-        // console.log(ingredients)
-
         const column = document.createElement('div');
         column.classList.add('ingredients__detailled--block');
         let ingredientData;

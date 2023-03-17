@@ -51,7 +51,7 @@ class Filter {
 
 
     arrowDown.addEventListener('click', (e) => {
-      // console.log(`${this._filter} was clicked`)
+  
 
       if (arrowDown.classList.contains(`ingredientsArrowDown`)) {
         document.querySelector('.appliancesArrowUp').click()
@@ -143,7 +143,6 @@ class Filter {
     }
 
     if (this._filter === 'appliances') {
-      // console.log(this._recipesData)
       this._recipesData.forEach((recipe) => {
 
         let appliance = recipe.appliance
@@ -172,7 +171,7 @@ class Filter {
       this._recipesData.forEach((recipe) => {
 
         recipe.ustensils.forEach((ustensil) => {
-          
+
 
           this.ustensilsList.push(ustensil);
         });
@@ -197,24 +196,16 @@ class Filter {
   async filterKeyInput() {
 
     const filterItemsInput = document.getElementsByClassName(`filter__${this._filter}--input`);
-    // console.log(this._filter, "array?", Array.from(filterItemsInput))
     Array.from(filterItemsInput).forEach((element) => {
-      // console.log(this.ingredientsList)
       element.addEventListener('input', (e) => {
-        console.log(e.target.id)
-
-        // const appliancesList = []
-        // const ustensilsList = []
-
-
         if (e.target.id === 'ingredients-input') {
           const FilterListContainer = document.querySelector(`.filter__ingredients--list`);
-          console.log("filtercontainer!!", FilterListContainer)
+
 
           FilterListContainer.innerHTML = ""
-          console.log("filtercontainer!!", FilterListContainer)
 
-          console.log(this.ingredientsList)
+
+    
           let NewList = this.ingredientsList.filter(ingredient => ingredient.includes(e.target.value))
           NewList.forEach(ingredient => {
 
@@ -230,12 +221,11 @@ class Filter {
         }
         if (e.target.id === 'ustensils-input') {
           const FilterListContainer = document.querySelector(`.filter__ustensils--list`);
-          console.log("filtercontainer!!", FilterListContainer)
+     
 
           FilterListContainer.innerHTML = ""
-          console.log("filtercontainer!!", FilterListContainer)
+   
 
-          console.log(this.ustensilsList)
           let NewList = this.ustensilsList.filter(ustensil => ustensil.includes(e.target.value))
           NewList.forEach(ustensil => {
 
@@ -252,12 +242,12 @@ class Filter {
 
         if (e.target.id === 'appliances-input') {
           const FilterListContainer = document.querySelector(`.filter__appliances--list`);
-          console.log("filtercontainer!!", FilterListContainer)
+       
 
           FilterListContainer.innerHTML = ""
-          console.log("filtercontainer!!", FilterListContainer)
+        
 
-          console.log(this.appliancesList)
+ 
           let NewList = this.appliancesList.filter(appliance => appliance.includes(e.target.value))
           NewList.forEach(appliance => {
 
@@ -280,7 +270,7 @@ class Filter {
   createFilterTags(filter) {
 
 
-    // console.log('test')
+
 
     const filterItems = document.getElementsByClassName(`.filter__${filter}--items`);
     const wrapper = document.querySelector(`.tag__${filter}--wrapper`);
@@ -289,24 +279,20 @@ class Filter {
     Array.from(filterItems).forEach((element) => {
       element.addEventListener('click', (e) => {
         if (app.activeTags.includes(element.innerHTML.toLowerCase())) {
-          console.log("already have this tag")
           return
         }
-        console.log("added new tag")
-        // console.log(element.innerHTML, "from filter")
+
+
         const tagContainer = document.createElement('div');
         tagContainer.setAttribute('class', `tag__${filter}`);
         tagContainer.classList.add(`selected-tag`);
-        // console.log(element.innerHTML)
+
         app.activeTags.push(element.innerHTML.toLowerCase())
 
         let filterValue = element.innerHTML.toLowerCase()
 
         const regex = /\s|'/g
-        let filterValueNoSpace = filterValue.replace(regex,'')
-        console.log(filterValueNoSpace)
-
-
+        let filterValueNoSpace = filterValue.replace(regex, '')
         let tagTemplate = `
           
               <div class="tag-${filter} ${filterValueNoSpace}">${element.innerHTML}</li>
@@ -318,48 +304,42 @@ class Filter {
         wrapper.appendChild(tagContainer)
 
         const filterResults = searchWithFilters(filterValue, this._recipesData)
-        //  console.log( filterResults, "result")
         app.recipesWrapper.innerHTML = ""
         app.currentRecipeList = filterResults
         app.resultFromTags = filterResults
         app.display()
 
-        console.log(filterValueNoSpace)
+
         const closeTag = document.querySelector(`.${filterValueNoSpace} .fa-circle-xmark`);
-        console.log(`${filterValueNoSpace} .fa-circle-xmark`)
 
 
-        console.log(filterValueNoSpace)
+
+
         const searchInput = document.querySelector('.search__input')
         closeTag.addEventListener('click', (e) => {
-          console.log(app.activeTags.length)
+     
 
 
           const newTagList = app.activeTags.filter(function (tag) {
             return tag !== e.target.parentNode.parentNode.outerText.trim().toString().toLowerCase();
           });
           app.activeTags = newTagList
-          // console.log(app.activeTags.length)
+
 
           e.target.parentNode.parentNode.parentNode.remove()
           app.recipesWrapper.innerHTML = ""
 
-          // if (app.activeTags.length == 0) {
-            console.log(searchInput.value)
-            app.resultFromTags = ""
-            if (searchInput.value.length > 2) {
-              console.log("should do something")
-              app.currentRecipeList = searchRecipes(searchInput.value, app.fetchedList)
+          app.resultFromTags = ""
+          if (searchInput.value.length > 2) {
+            app.currentRecipeList = searchRecipes(searchInput.value, app.fetchedList)
 
-            }
-            else {
+          }
+          else {
 
-              app.currentRecipeList = app.fetchedList
-            }
-          // }
-          // else {
-            app.currentRecipeList = filterAfterDeletingTag(app.activeTags, app.currentRecipeList)
-          // }
+            app.currentRecipeList = app.fetchedList
+          }
+
+          app.currentRecipeList = filterAfterDeletingTag(app.activeTags, app.currentRecipeList)
           app.display()
         });
 

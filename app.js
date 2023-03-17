@@ -59,10 +59,17 @@ class App {
 
 
     async SearchAndUpdate() {
-        let RecipeList = this.currentRecipeList
-        let searchInput = document.querySelector('.search__input')
+        let RecipeList = this.fetchedList
 
+
+        let searchInput = document.querySelector('.search__input')
         searchInput.addEventListener("input", (e) => {
+            RecipeList = this.fetchedList
+
+            if (this.activeTags.length > 0) {
+                RecipeList=  filterAfterDeletingTag(this.activeTags,this.fetchedList)
+
+            }
 
             let value = e.target.value
             this.recipesWrapper.innerHTML = ""
@@ -87,8 +94,9 @@ class App {
                 //if the search value is under 3 characters, after deleting a character for example, we check if there are any tags present, and update the display accordingly in this case, otherwise we reset the display with all  50 recipes from database
 
                 noResultMessage.innerHTML = ""
-                if (this.resultFromTags.length > 0) {
-                    this.currentRecipeList = this.resultFromTags
+                if (this.activeTags.length > 0) {
+                    let result = filterAfterDeletingTag(this.activeTags,this.fetchedList)
+                    this.currentRecipeList = result
                 }
                 else {
                     if (this.currentRecipeList !== this.fetchedList) {
