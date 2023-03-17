@@ -1,5 +1,4 @@
-let api = new RecipeApi('data/recipes.json').getRecipes()
-let noResultMessage = document.querySelector('.no-result-message')
+
 
 class App {
     recipesData;
@@ -38,85 +37,79 @@ class App {
 
 
         let RecipeList = this.currentRecipeList
+        if (RecipeList && RecipeList.length > 0) {
 
-        this.currentRecipeList.forEach(recipe => {
-            const recipeTemplate = new RecipeCard(recipe)
-            this.recipesWrapper.appendChild(recipeTemplate.createRecipeCard())
+            this.currentRecipeList.forEach(recipe => {
+                const recipeTemplate = new RecipeCard(recipe)
+                this.recipesWrapper.appendChild(recipeTemplate.createRecipeCard())
 
-        })
-        const FilterList = ['ingredients', 'appliances', 'ustensils']
-        this.filtersWrapper.innerHTML = ""
-        FilterList.forEach(filter => {
-            const filterTemplate = new Filter(filter, RecipeList)
-            this.filtersWrapper.appendChild(filterTemplate.createFilter())
-            filterTemplate.createToggleArrows()
-            filterTemplate.fillList()
-            filterTemplate.filterKeyInput()
-            filterTemplate.createFilterTags(filter)
-        })
-   
+            })
+            const FilterList = ['ingredients', 'appliances', 'ustensils']
+            this.filtersWrapper.innerHTML = ""
+            FilterList.forEach(filter => {
+                const filterTemplate = new Filter(filter, RecipeList)
+                this.filtersWrapper.appendChild(filterTemplate.createFilter())
+                filterTemplate.createToggleArrows()
+                filterTemplate.fillList()
+                filterTemplate.filterKeyInput()
+                filterTemplate.createFilterTags(filter)
+            })
+        }
+
     }
 
 
     async SearchAndUpdate() {
+
         let RecipeList = this.fetchedList
-
-
         let searchInput = document.querySelector('.search__input')
+
         searchInput.addEventListener("input", (e) => {
+            let value = e.target.value
+
+            // Prise en compte de la possible présence de tags pour la liste à filtrer
             RecipeList = this.fetchedList
-
             if (this.activeTags.length > 0) {
-                RecipeList=  filterAfterDeletingTag(this.activeTags,this.fetchedList)
-
+                RecipeList = filterWithAllTags(this.activeTags, this.fetchedList)
             }
 
-            let value = e.target.value
+            // réinitialisations
             this.recipesWrapper.innerHTML = ""
+            noResultMessage.innerHTML = ""
 
-                // If  input is longer than 2 characters
-                noResultMessage.innerHTML = ""
+            // Au moins 3 caractères
             if (value && value.length > 2) {
-                
+
                 value = value.toLowerCase()
                 let results = searchRecipes(value, RecipeList)
-                // if any recipe matches the search value, update list
+                //Si la fonction retourne des recettes, alors on met à jour la liste
                 if (results.length > 0) {
                     this.recipesWrapper.innerHTML = ""
                     this.currentRecipeList = results
                 } else {
-                      // otherwise display error message and update list
+                    // Sinon on affiche un message d'erreur, et on met à jour la liste
                     this.recipesWrapper.innerHTML = ""
                     this.currentRecipeList = this.results
                     noResultMessage.innerHTML = `Aucune recette ne correspond à votre critère… vous pouvez
                     chercher « tarte aux pommes », « poisson » etc...`
                 }
 
+                //moins de 3 caractères,
+                // précisement dans le cas ou l'on aurait retiré un caractère pour passer de 3 à 2 
             } else {
-                //if the search value is under 3 characters, after deleting a character for example, we check if there are any tags present, and update the display accordingly in this case, otherwise we reset the display with all  50 recipes from database
-
-                if (this.activeTags.length > 0) {
-                    let result = filterAfterDeletingTag(this.activeTags,this.fetchedList)
-                    this.currentRecipeList = result
-                }
-                else {
-                    if (this.currentRecipeList !== this.fetchedList) {
-                        this.currentRecipeList = this.fetchedList
-                    }
-
-                }
+               //si au moins un tag est actif, alors on affiche le résultat de filterWithAllTags
+               //Sinon on affiche toutes les recettes
+                        this.currentRecipeList = RecipeList
             }
             this.display()
         })
-
-
     }
-
 }
 
 
 
+let api = new RecipeApi('data/recipes.json').getRecipes()
+let noResultMessage = document.querySelector('.no-result-message')
 
 const app = new App(api);
-
 app.init()

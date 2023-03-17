@@ -20,7 +20,7 @@ function searchWithFilters(searchTerm, currentList) {
     
 }    
 
-function filterAfterDeletingTag(searchTerms, allRecipes) {
+function filterWithAllTags(searchTerms, allRecipes) {
     let currentList = allRecipes
 
     for (let i = 0; i < searchTerms.length; i++) {

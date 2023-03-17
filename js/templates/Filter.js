@@ -339,7 +339,7 @@ class Filter {
             app.currentRecipeList = app.fetchedList
           }
 
-          app.currentRecipeList = filterAfterDeletingTag(app.activeTags, app.currentRecipeList)
+          app.currentRecipeList = filterWithAllTags(app.activeTags, app.currentRecipeList)
           app.display()
         });
 
