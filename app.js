@@ -21,8 +21,6 @@ class App {
         this.activeTags = []
     }
 
-
-
     async init() {
 
         this.fetchedList = await this.recipesData
@@ -30,8 +28,6 @@ class App {
         app.display()
         app.SearchAndUpdate()
     }
-
-
 
     async display() {
 
