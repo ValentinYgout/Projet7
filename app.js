@@ -75,7 +75,9 @@ class App {
             this.recipesWrapper.innerHTML = ""
 
                 // If  input is longer than 2 characters
+                noResultMessage.innerHTML = ""
             if (value && value.length > 2) {
+                
                 value = value.toLowerCase()
                 let results = searchRecipes(value, RecipeList)
                 // if any recipe matches the search value, update list
@@ -93,7 +95,6 @@ class App {
             } else {
                 //if the search value is under 3 characters, after deleting a character for example, we check if there are any tags present, and update the display accordingly in this case, otherwise we reset the display with all  50 recipes from database
 
-                noResultMessage.innerHTML = ""
                 if (this.activeTags.length > 0) {
                     let result = filterAfterDeletingTag(this.activeTags,this.fetchedList)
                     this.currentRecipeList = result
